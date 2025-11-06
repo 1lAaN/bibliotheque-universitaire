@@ -3,12 +3,12 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-class AccueilController extends AbstractController
+class LivreController extends AbstractController
 {
-       #[Route('/' , name: 'app_accueil')] 
+       #[Route('/catalogue' , name: 'app_catalogue_list')] 
     public function index(): Response
     {
-         return $this->render('/accueil/index.html.twig', [
+         return $this->render('/catalogue/index.html.twig', [
           'livre' => 3555,
          ]);
     } 
