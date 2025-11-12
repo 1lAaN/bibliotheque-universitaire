@@ -108,12 +108,13 @@ class LivreController extends AbstractController
                ];
 
                if (isset ($livres[$id])){ 
+
                    return $this->render('catalogue/detail.html.twig', [
                        'livre' => $livres[$id]
                    ]);
                }
                else{
-                   throw $this->createNotFoundException('Livre non trouvé');
+                   throw $this->createNotFoundException('ERREUR 404 : Livre non trouvé');
                }
 
     }
