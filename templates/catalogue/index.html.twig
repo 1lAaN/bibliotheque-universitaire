@@ -1,8 +1,15 @@
 <body>
-livre:
-{% for livre in livres %}
-    <li> {{livre.titre}} </li>
+    livre:
+    {% for livre in livres %}
+        <li>
+            {{ livre.titre }} ==>
+            <a href="/livre/{{ livre.id }}">
+                détails
+            </a>
+        </li>
     {% endfor %}
 
-<a href="/">accueil</a>
+    <a href="/">
+        accueil
+    </a>
 </body>
