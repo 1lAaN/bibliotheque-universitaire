@@ -4,6 +4,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Validator\Constraints\All;
 class LivreController extends AbstractController
 {
     private array $livres = [
@@ -97,14 +98,16 @@ class LivreController extends AbstractController
 
     // API
     #[Route('/api/catalogue', name: 'api_livres_list')]
-    public function apiCatalogue() : JsonResponse{
+    public function apiCatalogue(): JsonResponse
+    {
         return $this->json($this->livres);
     }
 
     // STATS
-    #[Route('/statistique', name:'livres_stats')]
+    #[Route('/statistique', name: 'livres_stats')]
     public function statistiques(): Response
     {
+        // compter le nombre total de livres
         $nombreLivres = count($this->livres);
         $genres = [];
         foreach ($this->livres as $livre) {
@@ -112,16 +115,51 @@ class LivreController extends AbstractController
         }
         $genres = array_count_values($genres);
 
+        // compter les livres disponibles et indisponibles
         $livreDispo = [];
+        $livreIndispo = [];
         foreach ($this->livres as $livre) {
-            
+            if ($livre['disponible'] === true) {
+                $livreDispo[] = $livre;
+            } else {
+                $livreIndispo[] = $livre;
+            }
+        }
+        $livreDispoCount = count($livreDispo);
+        $livreIndispoCount = count($livreIndispo);
 
+        // repartir par genre 
+        $livreInformatique = [];
+        $livreLitterature = [];
+        $livreSciences = [];
+        $livreHistoire = 0;
+        foreach ($this->livres as $livre) {
+            if ($livre['genre'] === 'informatique') {
+                $livreInformatique[] = $livre;
+            } elseif ($livre['genre'] === 'litterature') {
+                $livreLitterature[] = $livre;
+            } elseif ($livre['genre'] === 'sciences') {
+                $livreSciences[] = $livre;
+            }
+        }
+        $livreInformatiqueCount = count($livreInformatique);
+        $livreLitteratureCount = count($livreLitterature);
+        $livreSciencesCount = count($livreSciences);
 
 
         return $this->render('catalogue/statistiques.html.twig', [
             'nombre_livres' => $nombreLivres,
-            'genres' => $genres
+            'genres' => $genres,
+            'livreDispoCount' => $livreDispoCount,
+            'livreIndispoCount' => $livreIndispoCount,
+            'livreInformatiqueCount' => $livreInformatiqueCount,
+            'livreLitteratureCount' => $livreLitteratureCount,
+            'livreSciencesCount' => $livreSciencesCount,
+            'livreHistoire' => $livreHistoire,
+
         ]);
+
+
     }
 
 }

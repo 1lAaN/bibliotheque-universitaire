@@ -1,0 +1,36 @@
+<h1>
+    Statistiques du catalogue
+</h1>
+
+<p>
+    Nombre total de livres :
+    {{ nombre_livres }}
+</p>
+<ul>
+    {% for genre, count in genres %}
+        <li>
+            Genre :
+            {{ genre }}
+            - Nombre de livres :
+            {{ count }}
+        </li>
+    {% endfor %}
+     <li>
+            Genre :
+            Histoire
+            - Nombre de livres :
+            {{ livreHistoire }}
+        </li>
+</ul>
+
+<p>
+    Livres disponibles :
+    {{ livreDispoCount }}
+</p>
+<p>
+    Livres indisponibles :
+    {{ livreIndispoCount }}
+</p>
+<a href="/catalogue">
+    Retour au catalogue
+</a>    
