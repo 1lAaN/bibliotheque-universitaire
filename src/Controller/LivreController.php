@@ -3,6 +3,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 class LivreController extends AbstractController
 {
     private array $livres = [
@@ -94,5 +95,33 @@ class LivreController extends AbstractController
 
     }
 
+    // API
+    #[Route('/api/catalogue', name: 'api_livres_list')]
+    public function apiCatalogue() : JsonResponse{
+        return $this->json($this->livres);
+    }
+
+    // STATS
+    #[Route('/statistique', name:'livres_stats')]
+    public function statistiques(): Response
+    {
+        $nombreLivres = count($this->livres);
+        $genres = [];
+        foreach ($this->livres as $livre) {
+            $genres[] = $livre['genre'];
+        }
+        $genres = array_count_values($genres);
+
+        $livreDispo = [];
+        foreach ($this->livres as $livre) {
+            
+
+
+
+        return $this->render('catalogue/statistiques.html.twig', [
+            'nombre_livres' => $nombreLivres,
+            'genres' => $genres
+        ]);
+    }
 
 }
